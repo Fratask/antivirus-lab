@@ -71,7 +71,9 @@ public class VirusServiceImpl implements VirusService {
 
     private byte[] getBytesFromData(byte[] data, int offset, int length) {
         byte[] result = new byte[length];
-        if (length - offset >= 0) System.arraycopy(data, offset, result, offset - offset, length - offset);
+        for (int i = offset; i < offset+length; i++) {
+            result[i-offset] = data[i];
+        }
         return result;
     }
 

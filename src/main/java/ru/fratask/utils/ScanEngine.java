@@ -11,9 +11,9 @@ import ru.fratask.entity.ScanSession;
 import ru.fratask.gui.Window;
 
 import java.time.LocalDateTime;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ScanEngine {
 
@@ -45,17 +45,19 @@ public class ScanEngine {
             byte[] data = new byte[1024];
             int counterOfObjects = 0;
             int counterOfFiles = 0;
-            int counterOfViruses = 0;
+            StringBuilder stringBuilder = new StringBuilder();
             for (ScanRegion scanRegion : scanObject.getRegions()) {
-                while (scanRegion.read(data) != -1) { // ошибка, прибавлять не нужно
-                    if (checkDataForViruses(data) != null) {
-                        counterOfViruses++;
+                while (scanRegion.read(data) != -1) {
+                    for (int i = 0; i < data.length; i++) {
+                        stringBuilder.append((char) data[i]);
                     }
                 }
             }
+            List<Virus> foundViruses = checkDataForViruses(stringBuilder.toString());
             scanReport.setCountOfScannedFiles(++counterOfFiles);
             scanReport.setCountOfScannedObjects(++counterOfObjects);
-            scanReport.setCountOfVirusFound(counterOfViruses);
+            scanReport.setCountOfVirusFound(foundViruses.size());
+            scanReport.setViruses(foundViruses);
             scanReport.setEndScan(LocalDateTime.now());
 
             System.out.println("end scan " + scanObject.getName());
@@ -96,14 +98,18 @@ public class ScanEngine {
         }
     }
 
-    private Virus checkDataForViruses(byte[] data) {
-
-        for (Virus virus : virusDao.findAll()) {
-            if (Arrays.equals(virus.getSignature().getData(), data)) {
-                return virus;
+    private List<Virus> checkDataForViruses(String data) {
+        List<Virus> viruses = new LinkedList<>();
+        for (Virus virus: virusDao.findAll()) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < virus.getSignature().getData().length; i++) {
+                sb.append((char) virus.getSignature().getData()[i]);
+            }
+            if (data.contains(sb.toString())) {
+                viruses.add(virus);
             }
         }
-        return null;
+        return viruses;
     }
 
     private void printStats(ScanReport scanReport) {
@@ -112,7 +118,7 @@ public class ScanEngine {
         window.getFilesCountLabel().setText("Count of files: " + scanReport.getCountOfScannedFiles());
         window.getObjectsCountLabel().setText("Count of files: " + scanReport.getCountOfScannedObjects());
         window.getVirusesCountLabel().setText("Count of viruses: " + scanReport.getCountOfVirusFound());
-        window.getVirusNameLabel().setText("Viruses names: " + scanReport.getViruses());
+        window.getVirusNameLabel().setText("Viruses names: " + scanReport.getViruses().stream().map(virus -> virus.getName() + " ").collect(Collectors.joining()));
     }
 
 }
