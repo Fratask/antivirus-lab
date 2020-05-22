@@ -8,6 +8,7 @@ import ru.fratask.entity.ScanObject;
 import ru.fratask.entity.ScanRegion;
 import ru.fratask.entity.ScanReport;
 import ru.fratask.entity.ScanSession;
+import ru.fratask.gui.Window;
 
 import java.time.LocalDateTime;
 import java.util.ArrayDeque;
@@ -60,7 +61,7 @@ public class ScanEngine {
             System.out.println("end scan " + scanObject.getName());
             scanSession.setBusy(false);
             new Thread(this::checkQueue).start();
-            System.out.println(scanReport.toString());
+            printStats(scanReport);
         }
     }
 
@@ -103,6 +104,15 @@ public class ScanEngine {
             }
         }
         return null;
+    }
+
+    private void printStats(ScanReport scanReport) {
+        Window window = Window.getInstance();
+        window.getReportLabel().setText("Scan report " + scanReport.getStartScan() + " - " + scanReport.getEndScan());
+        window.getFilesCountLabel().setText("Count of files: " + scanReport.getCountOfScannedFiles());
+        window.getObjectsCountLabel().setText("Count of files: " + scanReport.getCountOfScannedObjects());
+        window.getVirusesCountLabel().setText("Count of viruses: " + scanReport.getCountOfVirusFound());
+        window.getVirusNameLabel().setText("Viruses names: " + scanReport.getViruses());
     }
 
 }
