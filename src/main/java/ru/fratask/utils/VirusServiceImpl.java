@@ -43,6 +43,8 @@ public class VirusServiceImpl implements VirusService {
                 virusDao.create(newVirus);
                 System.out.println("Virus created: " + newVirus.toString());
                 countOfViruses++;
+                byte[] end = new byte[2];
+                inputStream.read(end);
             }
         } catch (IOException e) {
             throw new AntivirusException(e);
@@ -53,16 +55,16 @@ public class VirusServiceImpl implements VirusService {
 
     private int getIntFromData(byte[] data, int offset, int length) {
         StringBuilder sb = new StringBuilder();
-        for (int i = offset; i < length; i++) {
-            sb.append(data[i]);
+        for (int i = offset; i < offset+length; i++) {
+            sb.append(getCharFromByte(data[i]));
         }
         return Integer.parseInt(sb.toString());
     }
 
     private String getStringFromData(byte[] data, int offset, int length) {
         StringBuilder sb = new StringBuilder();
-        for (int i = offset; i < length; i++) {
-            sb.append(data[i]);
+        for (int i = offset; i < offset+length; i++) {
+            sb.append(getCharFromByte(data[i]));
         }
         return sb.toString();
     }
@@ -71,5 +73,9 @@ public class VirusServiceImpl implements VirusService {
         byte[] result = new byte[length];
         if (length - offset >= 0) System.arraycopy(data, offset, result, offset - offset, length - offset);
         return result;
+    }
+
+    private char getCharFromByte(byte data) {
+        return (char) data;
     }
 }

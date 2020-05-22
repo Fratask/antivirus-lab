@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ZIotVPO" />
+        <module name="antivirus-lab" />
       </profile>
     </annotationProcessing>
   </component>

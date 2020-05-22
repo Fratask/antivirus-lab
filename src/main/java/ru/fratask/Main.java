@@ -13,7 +13,7 @@ public class Main {
     private static final VirusService virusService = new VirusServiceImpl();
 
     public static void main(String[] args) {
-        virusService.addFromFile("C:\\Users\\Amir\\Documents\\IdeaProjects\\ZIotVPO\\src\\main\\resources\\viruses.txt");
+        virusService.addFromFile("C:\\Users\\Amir\\IdeaProjects\\antivirus-lab\\src\\main\\resources\\viruses.txt");
         Window.getInstance().setVisible(true);
 
     }
