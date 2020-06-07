@@ -1,21 +1,25 @@
 package ru.fratask.builder;
 
-import lombok.Data;
-import ru.fratask.entity.ObjectContent;
+import ru.fratask.entity.FileType;
+import ru.fratask.entity.IObjectContent;
 import ru.fratask.entity.ScanObject;
 
-@Data
 public class ScanObjectBuilder {
 
-    private ScanObject scanObject;
-
-    public ScanObjectBuilder(ObjectContent content) {
-        PEScanObjectBuilder peScanObjectBuilder = new PEScanObjectBuilder(content);
-        scanObject = peScanObjectBuilder.getScanObject();
-        if (scanObject == null) {
-            ZipScanObjectBuilder zipScanObjectBuilder = new ZipScanObjectBuilder(content);
-            scanObject = zipScanObjectBuilder.getScanObject();
+    public static ScanObject build(IObjectContent content) {
+        if (content != null) {
+            if (content.getPath() != null) {
+                String fileType = FileType.getFileType(content);
+                if (fileType.equals("zip")) {
+                    return ZipScanObjectBuilder.build(content);
+                } else if (fileType.equals("exe")) {
+                    return PEScanObjectBuilder.build(content);
+                } else {
+                    return null;
+                }
+            }
         }
+        return null;
     }
 
 }

@@ -4,23 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.fratask.entity.Virus;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
 
+@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScanReport {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String initiator;
-    private LocalDateTime startScan;
-    private LocalDateTime endScan;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private int countOfScannedFiles;
-    private int countOfScannedObjects;
-    private int countOfVirusFound;
-    private List<Virus> viruses;
+    private int countOfViruses;
 
 }

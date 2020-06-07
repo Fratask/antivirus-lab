@@ -1,21 +1,15 @@
 package ru.fratask;
 
-import ru.fratask.dao.InMemoryVirusDaoImpl;
-import ru.fratask.dao.VirusDao;
-import ru.fratask.entity.Signature;
-import ru.fratask.entity.Virus;
-import ru.fratask.gui.Window;
-import ru.fratask.utils.VirusService;
-import ru.fratask.utils.VirusServiceImpl;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@EnableJpaRepositories
+@SpringBootApplication
 public class Main {
 
-    private static final VirusService virusService = new VirusServiceImpl();
-
     public static void main(String[] args) {
-        virusService.addFromFile("C:\\Users\\Amir\\IdeaProjects\\antivirus-lab\\src\\main\\resources\\viruses.txt");
-        Window.getInstance().setVisible(true);
-
+        SpringApplication.run(Main.class, args);
     }
 
 }

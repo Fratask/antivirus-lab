@@ -1,43 +1,25 @@
 package ru.fratask.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
 public class ScanObject {
 
     private String name;
-    private List<ScanRegion> regions;
+    private List<ScanRegion> scanRegions;
     private List<ScanObject> subObjects;
 
-    public int read(byte[] blocks, ScanObject parentObject) {
-        int bytesRead = 0;
-        if (parentObject != null) {
-            System.out.println("Read child object start " + name);
-        } else {
-            System.out.println("Read object start " + name);
+    public int readBlock(byte[][] blocks, ScanObject parentObject) {
+        int readBytes = 0;
+        for (int i = 0; i < scanRegions.size(); i++) {
+            readBytes += scanRegions.get(i).readBlock(blocks[i]);
         }
-        for (ScanRegion scanRegion : regions) {
-            bytesRead += scanRegion.read(blocks);
-        }
-        if (subObjects != null) {
-            for (ScanObject scanObject : subObjects) {
-                bytesRead += scanObject.read(blocks, this);
-            }
-        }
-        if (parentObject != null) {
-            System.out.println("Read child object stop " + name);
-        } else {
-            System.out.println("Read object stop " + name);
-        }
-        return bytesRead;
-    }
+        //TODO: Придумать что надо делать если есть subObjects
 
+        return readBytes;
+    }
 }

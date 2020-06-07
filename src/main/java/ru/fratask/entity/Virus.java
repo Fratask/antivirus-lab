@@ -5,15 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Virus {
 
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String name;
-    private Signature signature;
-    private int minSignatureByteOffset;
-    private int maxSignatureByteOffset;
+    private int length;
+    private byte[] sequence;
+    private int minOffset;
+    private int maxOffset;
+
 }
