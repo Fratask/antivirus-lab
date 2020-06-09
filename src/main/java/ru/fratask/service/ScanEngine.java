@@ -47,6 +47,7 @@ public class ScanEngine {
             for (int i = minIndex; i < maxIndex; i ++) {
                 if (bytesContainsSequence(data[i], virus.getSequence())) {
                     result.add(virus);
+                    break;
                 }
             }
         }

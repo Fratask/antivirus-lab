@@ -1,5 +1,6 @@
 package ru.fratask.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.fratask.builder.ObjectContentBuilder;
 import ru.fratask.builder.ScanObjectBuilder;
@@ -13,6 +14,7 @@ public class Directory {
 
     private String path;
     private int countOfFiles;
+    @JsonIgnore
     private List<ScanObject> scanObjects;
 
     public static Directory build(String path) {

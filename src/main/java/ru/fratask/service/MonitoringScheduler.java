@@ -34,7 +34,6 @@ public class MonitoringScheduler {
     @Scheduled(cron = "0 0 */1 * * *")
     public void scanDirectories() {
         if (configuration.getState().equals(State.ENABLE)) {
-            System.out.println(LocalDateTime.now() + " scanDirectories");
             Collection<Directory> directories = directoryMonitorService.getAll().values();
             Report result = new Report();
             result.setInitiator("System monitoring");
@@ -55,7 +54,6 @@ public class MonitoringScheduler {
     @Scheduled(cron = "* * * * * *")
     public void monitor() {
         if (configuration.getState().equals(State.ENABLE)) {
-            System.out.println(LocalDateTime.now() + " monitor");
             List<Directory> directories = new ArrayList<>(directoryMonitorService.getAll().values());
             if (directories.size() != oldDirectories.size()) {
                 Report result = new Report();
