@@ -7,9 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class DirectoryMonitor {
+public class DirectoryMonitorService {
 
     private Map<String, Directory> directories = new HashMap<>();
+
+    public DirectoryMonitorService() {
+        addStandardDirectories();
+    }
 
     public boolean addDirectory(String path) {
         if (directories.containsKey(path)) {
@@ -41,5 +45,11 @@ public class DirectoryMonitor {
     public Map<String, Directory> getAll() {
         return directories;
     }
+
+    private void addStandardDirectories() {
+        String userName = System.getProperty("user.name");
+        addDirectory("C:/Users/" + userName + "/Downloads");
+    }
+
 
 }

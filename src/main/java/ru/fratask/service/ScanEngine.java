@@ -21,13 +21,11 @@ public class ScanEngine {
     public Report scan(ScanObject scanObject, String initiator) {
         byte[][] buffer = new byte[scanObject.getScanRegions().size()][ScanRegion.getStandardRegionSize()];
         Report report = new Report();
-        report.setStartTime(LocalDateTime.now());
         report.setInitiator(initiator);
 
         scanObject.readBlock(buffer, null);
         List<Virus> viruses = checkDataForViruses(buffer);
 
-        report.setEndTime(LocalDateTime.now());
         report.setCountOfScannedFiles(1);
         report.setCountOfViruses(viruses.size());
         report.setViruses(viruses.stream().map(Virus::getName).collect(Collectors.toList()));
@@ -54,5 +52,21 @@ public class ScanEngine {
 
     private boolean bytesContainsSequence(byte[] data, byte[] sequence) {
         return Bytes.indexOf(data, sequence) != -1;
+    }
+
+    public Report scanDirectory(Directory directory, String initiator) {
+        Report result = new Report();
+        result.setInitiator(initiator);
+        result.setStartTime(LocalDateTime.now());
+        result.setViruses(new ArrayList<>());
+        for (ScanObject scanObject : directory.getScanObjects()) {
+            Report report = scan(scanObject, initiator);
+            result.setCountOfScannedRegions(result.getCountOfScannedRegions() + report.getCountOfScannedRegions());
+            result.setCountOfScannedFiles(result.getCountOfScannedFiles() + report.getCountOfScannedFiles());
+            result.setCountOfViruses(result.getCountOfViruses() + report.getCountOfViruses());
+            result.getViruses().addAll(report.getViruses());
+        }
+        result.setEndTime(LocalDateTime.now());
+        return result;
     }
 }

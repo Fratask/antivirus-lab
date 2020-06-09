@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.fratask.entity.Directory;
-import ru.fratask.service.DirectoryMonitor;
+import ru.fratask.service.DirectoryMonitorService;
 
+import java.util.Collection;
 import java.util.Map;
 
 @RestController
@@ -14,22 +15,23 @@ import java.util.Map;
 public class DirectoryController {
 
     @Autowired
-    private DirectoryMonitor directoryMonitor;
+    private DirectoryMonitorService directoryMonitorService;
 
     @GetMapping
-    public ResponseEntity<Map<String, Directory>> getAllDirectories() {
-        return ResponseEntity.ok(directoryMonitor.getAll());
+    public ResponseEntity getAllDirectories() {
+        Collection<Directory> result = directoryMonitorService.getAll().values();
+        return ResponseEntity.ok(result);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addDirectoryToMonitoring(@RequestBody Map<String, String> params) {
-        directoryMonitor.addDirectory(params.get("path"));
+        directoryMonitorService.addDirectory(params.get("path"));
     }
 
-    @DeleteMapping
+    @PostMapping("/remove")
     public void removeDirectoryFromMonitoring(@RequestBody Map<String, String> params) {
-        directoryMonitor.removeDirectory(params.get("path"));
+        directoryMonitorService.removeDirectory(params.get("path"));
     }
 
 

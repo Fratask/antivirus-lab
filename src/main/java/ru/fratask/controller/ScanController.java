@@ -1,6 +1,5 @@
 package ru.fratask.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +9,6 @@ import ru.fratask.builder.ObjectContentBuilder;
 import ru.fratask.builder.ScanObjectBuilder;
 import ru.fratask.entity.Report;
 import ru.fratask.entity.ScanObject;
-import ru.fratask.entity.ScanReport;
 import ru.fratask.service.ScanEngine;
 
 import java.util.Map;
@@ -19,8 +17,12 @@ import java.util.Map;
 @RequestMapping("/scan")
 public class ScanController {
 
-    @Autowired
-    private ScanEngine scanEngine;
+
+    private final ScanEngine scanEngine;
+
+    public ScanController(ScanEngine scanEngine) {
+        this.scanEngine = scanEngine;
+    }
 
     @PostMapping("/file")
     public ResponseEntity<Report> scan(@RequestBody Map<String, String> params) {

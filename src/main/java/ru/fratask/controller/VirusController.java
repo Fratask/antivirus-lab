@@ -26,4 +26,5 @@ public class VirusController {
     public ResponseEntity<List<Virus>> getAll() {
         return ResponseEntity.ok(virusService.getAllViruses());
     }
+
 }

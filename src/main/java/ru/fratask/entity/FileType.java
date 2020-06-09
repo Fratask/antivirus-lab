@@ -1,9 +1,6 @@
 package ru.fratask.entity;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Arrays;
 
 public enum FileType {
@@ -30,6 +27,9 @@ public enum FileType {
     }
 
     public static String getFileType(String path) {
+        if (new File(path).isDirectory()) {
+            return "dir";
+        }
         byte[] fileTypeByte = new byte[2];
         InputStream inputStream = null;
         try {

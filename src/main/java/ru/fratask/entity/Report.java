@@ -9,10 +9,10 @@ import java.util.List;
 public class Report {
 
     private String initiator;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private int countOfScannedFiles;
     private int countOfViruses;
     private int countOfScannedRegions;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private List<String> viruses;
 }
