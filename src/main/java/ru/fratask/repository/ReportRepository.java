@@ -1,7 +1,7 @@
 package ru.fratask.repository;
 
 import org.springframework.stereotype.Component;
-import ru.fratask.entity.Report;
+import ru.fratask.model.Report;
 
 import java.util.ArrayList;
 import java.util.List;

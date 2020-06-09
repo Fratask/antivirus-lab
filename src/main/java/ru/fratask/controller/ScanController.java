@@ -1,14 +1,12 @@
 package ru.fratask.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.fratask.builder.ObjectContentBuilder;
 import ru.fratask.builder.ScanObjectBuilder;
-import ru.fratask.entity.Report;
-import ru.fratask.entity.ScanObject;
+import ru.fratask.model.Report;
+import ru.fratask.model.ScanObject;
+import ru.fratask.model.State;
 import ru.fratask.service.ScanEngine;
 
 import java.util.Map;
@@ -35,5 +33,16 @@ public class ScanController {
         }
         Report report = scanEngine.scan(scanObject, "USER");
         return ResponseEntity.ok(report);
+    }
+
+    @GetMapping("/enable")
+    public void enableScanSystem() {
+        scanEngine.switchState(State.ENABLE);
+
+    }
+
+    @GetMapping("/disable")
+    public void disableScanSystem() {
+        scanEngine.switchState(State.DISABLE);
     }
 }

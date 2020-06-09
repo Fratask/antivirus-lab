@@ -1,4 +1,4 @@
-package ru.fratask.entity;
+package ru.fratask.model;
 
 public interface IObjectContent {
 

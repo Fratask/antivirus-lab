@@ -1,8 +1,8 @@
 package ru.fratask.builder;
 
-import ru.fratask.entity.FileType;
-import ru.fratask.entity.IObjectContent;
-import ru.fratask.entity.ScanObject;
+import ru.fratask.model.FileType;
+import ru.fratask.model.IObjectContent;
+import ru.fratask.model.ScanObject;
 
 public class ScanObjectBuilder {
 

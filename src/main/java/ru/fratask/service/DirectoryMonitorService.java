@@ -1,7 +1,7 @@
 package ru.fratask.service;
 
 import org.springframework.stereotype.Service;
-import ru.fratask.entity.Directory;
+import ru.fratask.model.Directory;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,8 +1,8 @@
 package ru.fratask.builder;
 
-import ru.fratask.entity.ScanObject;
-import ru.fratask.entity.ScanRegion;
-import ru.fratask.entity.IObjectContent;
+import ru.fratask.model.ScanObject;
+import ru.fratask.model.ScanRegion;
+import ru.fratask.model.IObjectContent;
 
 import java.util.List;
 

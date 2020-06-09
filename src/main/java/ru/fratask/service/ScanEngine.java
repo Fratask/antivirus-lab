@@ -2,7 +2,8 @@ package ru.fratask.service;
 
 import com.google.common.primitives.Bytes;
 import org.springframework.stereotype.Service;
-import ru.fratask.entity.*;
+import ru.fratask.config.Configuration;
+import ru.fratask.model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 public class ScanEngine {
 
     private final VirusService virusService;
+    private final Configuration configuration;
 
-    public ScanEngine(VirusService virusService) {
+    public ScanEngine(VirusService virusService, Configuration configuration) {
         this.virusService = virusService;
+        this.configuration = configuration;
     }
 
     public Report scan(ScanObject scanObject, String initiator) {
@@ -68,5 +71,12 @@ public class ScanEngine {
         }
         result.setEndTime(LocalDateTime.now());
         return result;
+    }
+
+    public boolean switchState(State state) {
+        if (!configuration.getState().equals(state)) {
+            configuration.setState(state);
+        }
+        return true;
     }
 }

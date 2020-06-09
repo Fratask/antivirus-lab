@@ -1,4 +1,4 @@
-package ru.fratask.entity;
+package ru.fratask.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

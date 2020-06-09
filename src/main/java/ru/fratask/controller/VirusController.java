@@ -2,7 +2,7 @@ package ru.fratask.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.fratask.entity.Virus;
+import ru.fratask.model.Virus;
 import ru.fratask.service.VirusService;
 
 import java.util.List;

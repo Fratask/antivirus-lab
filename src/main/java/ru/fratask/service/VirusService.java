@@ -1,7 +1,7 @@
 package ru.fratask.service;
 
 import org.springframework.stereotype.Service;
-import ru.fratask.entity.Virus;
+import ru.fratask.model.Virus;
 import ru.fratask.repository.VirusRepository;
 
 import java.util.List;
