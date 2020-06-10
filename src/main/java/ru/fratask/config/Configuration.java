@@ -7,6 +7,5 @@ import ru.fratask.model.State;
 @Data
 @Component
 public class Configuration {
-
     private State state = State.ENABLE;
 }

@@ -44,18 +44,28 @@ public class ScanEngine {
             int minIndex = virus.getMinOffset() / ScanRegion.getStandardRegionSize();
             int maxIndex = ((virus.getMaxOffset() + virus.getLength()) / ScanRegion.getStandardRegionSize()) + 1;
             maxIndex = Math.min(maxIndex, data.length);
-            for (int i = minIndex; i < maxIndex; i ++) {
-                if (bytesContainsSequence(data[i], virus.getSequence())) {
-                    result.add(virus);
-                    break;
-                }
+            byte[][] dataForAnalyze = new byte[maxIndex-minIndex+1][ScanRegion.getStandardRegionSize()];
+            for (int i = minIndex; i < maxIndex; i++) {
+                dataForAnalyze[i-minIndex] = data[i];
+            }
+            if (bytesContainsSequence(dataForAnalyze, virus.getSequence())) {
+                result.add(virus);
             }
         }
         return result;
     }
 
-    private boolean bytesContainsSequence(byte[] data, byte[] sequence) {
-        return Bytes.indexOf(data, sequence) != -1;
+    private boolean bytesContainsSequence(byte[][] data, byte[] sequence) {
+        int length = 0;
+        for (byte[] datum : data) {
+            length += datum.length;
+        }
+        Byte[] dataForAnalyze = new Byte[length];
+        for (byte[] datum : data) {
+            Byte[] regionByte = parseToByteClassArray(datum);
+            contactBytes(dataForAnalyze, regionByte);
+        }
+        return Bytes.indexOf(parseToBytePrimitiveArray(dataForAnalyze), sequence) != -1;
     }
 
     public Report scanDirectory(Directory directory, String initiator) {
@@ -80,4 +90,36 @@ public class ScanEngine {
         }
         return true;
     }
+
+    private Byte[] parseToByteClassArray(byte[] data) {
+        Byte[] result = new Byte[data.length];
+        for (int i = 0; i < data.length; i++) {
+            result[i] = data[i];
+        }
+        return result;
+    }
+
+    private byte[] parseToBytePrimitiveArray(Byte[] data) {
+        byte[] result = new byte[data.length];
+        for (int i = 0; i < data.length; i++) {
+            result[i] = data[i];
+        }
+        return result;
+    }
+
+
+    private static void contactBytes(Byte[] a, Byte[] b) {
+        int i = 0;
+        while (i < a.length) {
+            if (a[i] == null) {
+                for (Byte aByte : b) {
+                    a[i] = aByte;
+                    i++;
+                }
+                return;
+            }
+            i++;
+        }
+    }
+
 }
